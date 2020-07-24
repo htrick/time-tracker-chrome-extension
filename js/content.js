@@ -1,12 +1,14 @@
 startTime = new Date();
 
-setInterval(sendTime, 5000);
+const port = chrome.runtime.connect();
 
 window.addEventListener("beforeunload", sendTime);
 
+setInterval(sendTime, 5000);
+
 function sendTime() {
     const endTime = new Date();
-    chrome.runtime.sendMessage({
+    port.postMessage({
         site: window.location.host,
         time: endTime - startTime
     });

@@ -1,13 +1,4 @@
-chrome.storage.local.get(["times"], (result) => {
-    let times = result.times;
-    if (times != undefined) {
-        Object.keys(times).forEach((site) => {
-            const div = document.createElement("div");
-            div.textContent = `${site}: ${convertTime(times[site])}`;
-            document.body.appendChild(div);
-        });
-    }
-});
+refreshList();
 
 document.querySelector("#reset").addEventListener("click", () => {
     chrome.storage.local.set({"times": {}});
@@ -17,7 +8,7 @@ document.querySelector("#reset").addEventListener("click", () => {
 });
 
 setInterval(() => {
-    location.reload();
+    refreshList();
 }, 10000);
 
 function convertTime(time) {
@@ -28,4 +19,20 @@ function convertTime(time) {
     ms -= minutes * 1000 * 60;
     const seconds = Math.floor(ms / 1000);
     return `${hours} h, ${minutes} m, ${seconds} s`;
+}
+
+function refreshList() {
+    document.querySelectorAll("div").forEach((div) => {
+        document.body.removeChild(div);
+    });
+    chrome.storage.local.get(["times"], (result) => {
+        let times = result.times;
+        if (times != undefined) {
+            Object.keys(times).forEach((site) => {
+                const div = document.createElement("div");
+                div.textContent = `${site}: ${convertTime(times[site])}`;
+                document.body.appendChild(div);
+            });
+        }
+    });
 }
