@@ -14,6 +14,10 @@ document.querySelector("#reset").addEventListener("click", () => {
     });
 });
 
+setInterval(() => {
+    location.reload();
+}, 10000);
+
 function convertTime(time) {
     let ms = time;
     const hours = Math.floor(ms / 1000 / 60 / 60);
