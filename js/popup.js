@@ -1,9 +1,17 @@
-const bg = chrome.extension.getBackgroundPage();
+chrome.storage.sync.get(["times"], (result) => {
+    let times = result.times;
+    Object.keys(times).forEach((site) => {
+        const div = document.createElement("div");
+        div.textContent = `${site}: ${convertTime(times[site])}`;
+        document.body.appendChild(div);
+    });
+});
 
-Object.keys(bg.times).forEach((site) => {
-    const div = document.createElement("div");
-    div.textContent = `${site}: ${convertTime(bg.times[site])}`;
-    document.body.appendChild(div);
+document.querySelector("#reset").addEventListener("click", () => {
+    chrome.storage.sync.set({"times": {}});
+    document.querySelectorAll("div").forEach((div) => {
+        document.body.removeChild(div);
+    });
 });
 
 function convertTime(time) {

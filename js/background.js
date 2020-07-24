@@ -1,12 +1,14 @@
-window.times = {};
-
 chrome.runtime.onMessage.addListener((req, sender, res) => {
-    if (window.times[req.site] == undefined) {
-        window.times[req.site] = req.time;
-    }
-    else {
-        window.times[req.site] += req.time;
-    }
+    chrome.storage.sync.get(["times"], (result) => {
+        let times = result.times;
+        if (times[req.site] == undefined) {
+            times[req.site] = req.time;
+        }
+        else {
+            times[req.site] += req.time;
+        }
+        chrome.storage.sync.set({"times": times});
+    });
 });
 
 chrome.browserAction.onClicked.addListener((tab) => {
