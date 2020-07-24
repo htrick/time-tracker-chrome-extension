@@ -1,14 +1,16 @@
-chrome.storage.sync.get(["times"], (result) => {
+chrome.storage.local.get(["times"], (result) => {
     let times = result.times;
-    Object.keys(times).forEach((site) => {
-        const div = document.createElement("div");
-        div.textContent = `${site}: ${convertTime(times[site])}`;
-        document.body.appendChild(div);
-    });
+    if (times != undefined) {
+        Object.keys(times).forEach((site) => {
+            const div = document.createElement("div");
+            div.textContent = `${site}: ${convertTime(times[site])}`;
+            document.body.appendChild(div);
+        });
+    }
 });
 
 document.querySelector("#reset").addEventListener("click", () => {
-    chrome.storage.sync.set({"times": {}});
+    chrome.storage.local.set({"times": {}});
     document.querySelectorAll("div").forEach((div) => {
         document.body.removeChild(div);
     });

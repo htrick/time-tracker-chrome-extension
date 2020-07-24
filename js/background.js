@@ -1,13 +1,16 @@
 chrome.runtime.onMessage.addListener((req, sender, res) => {
-    chrome.storage.sync.get(["times"], (result) => {
+    chrome.storage.local.get(["times"], (result) => {
         let times = result.times;
+        if (times == undefined) {
+            times = {};
+        }
         if (times[req.site] == undefined) {
             times[req.site] = req.time;
         }
         else {
             times[req.site] += req.time;
         }
-        chrome.storage.sync.set({"times": times});
+        chrome.storage.local.set({"times": times});
     });
 });
 
