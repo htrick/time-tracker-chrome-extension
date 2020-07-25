@@ -1,15 +1,17 @@
+const tbody = document.querySelector("tbody");
+
 refreshList();
 
 document.querySelector("#reset").addEventListener("click", () => {
     chrome.storage.local.set({"times": {}});
-    document.querySelectorAll("div").forEach((div) => {
-        document.body.removeChild(div);
+    document.querySelectorAll("tbody > tr").forEach((tr) => {
+        tbody.removeChild(tr);
     });
 });
 
 setInterval(() => {
     refreshList();
-}, 1000);
+}, 5000);
 
 function convertTime(time) {
     let ms = time;
@@ -33,8 +35,8 @@ function convertTime(time) {
 }
 
 function refreshList() {
-    document.querySelectorAll("div").forEach((div) => {
-        document.body.removeChild(div);
+    document.querySelectorAll("tbody > tr").forEach((tr) => {
+        tbody.removeChild(tr);
     });
     chrome.storage.local.get(["times"], (result) => {
         let times = result.times;
@@ -42,9 +44,9 @@ function refreshList() {
             Object.keys(times).sort((a, b) => {
                 return times[b] - times[a];
             }).forEach((site) => {
-                const div = document.createElement("div");
-                div.textContent = `${site}:     ${convertTime(times[site])}`;
-                document.body.appendChild(div);
+                const tr = document.createElement("tr");
+                tr.innerHTML = `<td>${site}</td><td>${convertTime(times[site])}</td>`;
+                tbody.appendChild(tr);
             });
         }
     });

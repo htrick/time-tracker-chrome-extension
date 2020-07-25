@@ -4,7 +4,7 @@ const port = chrome.runtime.connect();
 
 window.addEventListener("beforeunload", sendTime);
 
-setInterval(sendTime, 1000);
+setInterval(sendTime, 5000);
 
 function sendTime() {
     const endTime = new Date();

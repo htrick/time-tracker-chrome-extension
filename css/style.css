@@ -1,12 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap');
 
 * {
-    margin: 0 auto;
-    padding: 0;
     box-sizing: border-box;
     font-family: 'Noto Sans', sans-serif;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-div {
-    font-size: 2rem;
+body {
+    background-color: #c7c7c7;
+}
+
+table {
+    max-width: 400px;
+    margin-top: 75px;
 }
